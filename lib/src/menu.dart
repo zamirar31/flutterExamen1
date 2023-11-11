@@ -1,4 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_examen1/src/pages/noticias.dart';
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  MaterialApp(
+      home: Menu()
+    );
+    
+  }
+}
 
 class Menu extends StatelessWidget {
   @override
@@ -35,8 +48,10 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
             leading: Icon(Icons.newspaper),
             title: Text('Noticias'),
             onTap: () {
-              // Agrega la lógica para manejar la selección de la Opción 1.
-              print('Opción Noticias seleccionada');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Noticias()),
+              );
             },
           ),
           ListTile(
