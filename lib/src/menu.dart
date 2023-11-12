@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_examen1/src/pages/noticias.dart';
 import 'package:flutter_application_examen1/src/pages/lista.dart';
 import 'package:flutter_application_examen1/src/pages/cambiomoneda.dart';
+import 'package:flutter_application_examen1/src/pages/podcast.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -80,8 +81,10 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
             leading: Icon(Icons.podcasts),
             title: Text('Podcast'),
             onTap: () {
-              // Agrega la lógica para manejar la selección de la Opción 4.
-              print('Opción Podcast seleccionada');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PodcastPlayerWidget()),
+              );
             },
           ),
         ],

@@ -18,109 +18,69 @@ class CambioMonedasPage extends StatefulWidget {
 
 class _CambioMonedasPageState extends State<CambioMonedasPage> {
   
-List<String> monedas = ['Dólares', 'Euros'];
-  List<String> tipoOperacion = ['Compra', 'Venta'];
 
-  String monedaOrigen = 'Dólares';
-  String operacionOrigen = 'Compra';
-  String monedaDestino = 'Euros';
-  String operacionDestino = 'Venta';
 
+  // Lista de monedas disponibles
+  List<String> monedas = ['Dólar', 'Euro'];
+
+  List<String> compraventa = ['Compra', 'Venta'];
+
+  // Valor seleccionado por el usuario
+  String monedaSeleccionada = 'Dólar';
+  String compraventaSeleccionada = 'Compra';
+
+  // Controladores para los campos de texto
   TextEditingController cantidadController = TextEditingController();
   TextEditingController resultadoController = TextEditingController();
-
-  // Tasas de cambio ficticias para el ejemplo
-  double tasaCompraDolares = 24.6822;
-  double tasaVentaDolares = 24.8056;
-  double tasaCompraEuros = 25.2993;
-  double tasaVentaEuros = 28.4024;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cambio de Monedas'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DropdownButton(
-                  value: monedaOrigen,
-                  items: monedas.map((String moneda) {
-                    return DropdownMenuItem(
-                      value: moneda,
-                      child: Text(moneda),
-                    );
-                  }).toList(),
-                  onChanged: (String? nuevaMoneda) {
-                    setState(() {
-                      monedaOrigen = nuevaMoneda!;
-                    });
-                  },
-                ),
-                DropdownButton(
-                  value: operacionOrigen,
-                  items: tipoOperacion.map((String operacion) {
-                    return DropdownMenuItem(
-                      value: operacion,
-                      child: Text(operacion),
-                    );
-                  }).toList(),
-                  onChanged: (String? nuevaOperacion) {
-                    setState(() {
-                      operacionOrigen = nuevaOperacion!;
-                    });
-                  },
-                ),
-                Text(
-                  'L${operacionOrigen == 'Compra' ? tasaCompraDolares : tasaVentaDolares}',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
+            DropdownButton(
+              value: monedaSeleccionada,
+              items: monedas.map((String moneda) {
+                return DropdownMenuItem(
+                  value: moneda,
+                  child: Text(moneda),
+                );
+              }).toList(),
+              onChanged: (String? nuevaMoneda) {
+                setState(() {
+                  monedaSeleccionada = nuevaMoneda!;
+                });
+              },
             ),
-            SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DropdownButton(
-                  value: monedaDestino,
-                  items: monedas.map((String moneda) {
-                    return DropdownMenuItem(
-                      value: moneda,
-                      child: Text(moneda),
-                    );
-                  }).toList(),
-                  onChanged: (String? nuevaMoneda) {
-                    setState(() {
-                      monedaDestino = nuevaMoneda!;
-                    });
-                  },
-                ),
-                DropdownButton(
-                  value: operacionDestino,
-                  items: tipoOperacion.map((String operacion) {
-                    return DropdownMenuItem(
-                      value: operacion,
-                      child: Text(operacion),
-                    );
-                  }).toList(),
-                  onChanged: (String? nuevaOperacion) {
-                    setState(() {
-                      operacionDestino = nuevaOperacion!;
-                    });
-                  },
-                ),
-                Text(
-                  'L${operacionDestino == 'Compra' ? tasaCompraEuros : tasaVentaEuros}',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
+
+            DropdownButton(
+              value: compraventaSeleccionada,
+              items: compraventa.map((String compraventa) {
+                return DropdownMenuItem(
+                  value: compraventa,
+                  child: Text(compraventa),
+                );
+              }).toList(),
+              onChanged: (String? nuevaCompraVenta) {
+                setState(() {
+                  compraventaSeleccionada = nuevaCompraVenta!;
+                });
+              },
             ),
+
             SizedBox(height: 16.0),
             TextFormField(
               controller: cantidadController,
@@ -130,29 +90,14 @@ List<String> monedas = ['Dólares', 'Euros'];
               ),
             ),
             SizedBox(height: 16.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    calcularCambio();
-                  },
-                  child: Text('Calcular Cambio'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    convertirADolares();
-                  },
-                  child: Text('Convertir a Dólares'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    convertirAEuros();
-                  },
-                  child: Text('Convertir a Euros'),
-                ),
-              ],
+            ElevatedButton(
+              onPressed: () {
+                calcularCambio();
+              },
+              child: Text('Calcular Cambio'),
+
             ),
+            
             SizedBox(height: 16.0),
             TextFormField(
               controller: resultadoController,
@@ -161,6 +106,7 @@ List<String> monedas = ['Dólares', 'Euros'];
                 labelText: 'Resultado',
               ),
             ),
+            
           ],
         ),
       ),
@@ -169,39 +115,30 @@ List<String> monedas = ['Dólares', 'Euros'];
 
   void calcularCambio() {
     double cantidad = double.tryParse(cantidadController.text) ?? 0.0;
-    double tasaOrigen = operacionOrigen == 'Compra'
-        ? (monedaOrigen == 'Dólares' ? tasaCompraDolares : tasaCompraEuros)
-        : (monedaOrigen == 'Dólares' ? tasaVentaDolares : tasaVentaEuros);
-    double tasaDestino = operacionDestino == 'Compra'
-        ? (monedaDestino == 'Dólares' ? tasaCompraDolares : tasaCompraEuros)
-        : (monedaDestino == 'Dólares' ? tasaVentaDolares : tasaVentaEuros);
+   // double tipocv = double.tryParse(cantidadController.text) ?? 0.0;
+    double tipoCambio=0;
 
-    double resultado = cantidad * (tasaDestino / tasaOrigen);
 
+    if (monedaSeleccionada == 'Dólar' && compraventaSeleccionada == 'Compra') {
+      tipoCambio = 24.6822;
+    } 
+    if (monedaSeleccionada == 'Dólar' && compraventaSeleccionada == 'Venta'){
+      tipoCambio = 24.8056;
+    }
+    if (monedaSeleccionada == 'Euro' && compraventaSeleccionada == 'Compra'){
+      tipoCambio = 25.2993;
+    }
+    if (monedaSeleccionada == 'Euro' && compraventaSeleccionada == 'Venta'){
+      tipoCambio = 28.4024;
+    }
+    
+
+    // Calcular el cambio
+    double resultado = cantidad * tipoCambio;
+
+    // Actualizar el campo de texto del resultado
     setState(() {
       resultadoController.text = resultado.toStringAsFixed(4);
-    });
-  }
-
-  void convertirADolares() {
-    setState(() {
-      monedaOrigen = 'Lempiras';
-      operacionOrigen = 'Venta';
-      monedaDestino = 'Dólares';
-      operacionDestino = 'Compra';
-      cantidadController.text = '';
-      resultadoController.text = '';
-    });
-  }
-
-  void convertirAEuros() {
-    setState(() {
-      monedaOrigen = 'Lempiras';
-      operacionOrigen = 'Venta';
-      monedaDestino = 'Euros';
-      operacionDestino = 'Compra';
-      cantidadController.text = '';
-      resultadoController.text = '';
     });
   }
 }
