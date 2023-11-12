@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_examen1/src/pages/noticias.dart';
+import 'package:flutter_application_examen1/src/pages/lista.dart';
+import 'package:flutter_application_examen1/src/pages/cambiomoneda.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -58,16 +60,20 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
             leading: Icon(Icons.attach_money),
             title: Text('El cambio de moneda'),
             onTap: () {
-              // Agrega la lógica para manejar la selección de la Opción 2.
-              print('Opción El cambio de moneda seleccionada');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CambioMonedas()),
+              );
             },
           ),
           ListTile(
             leading: Icon(Icons.list),
             title: Text('Lista de tareas'),
             onTap: () {
-              // Agrega la lógica para manejar la selección de la Opción 3.
-              print('Opción Lista de tareas seleccionada');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Lista()),
+              );
             },
           ),
           ListTile(

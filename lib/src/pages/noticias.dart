@@ -1,28 +1,21 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_application_examen1/src/menu.dart';
-//import 'package:flutter_application_examen1/src/menu.dart';
+
 
 class Noticias extends StatelessWidget {
-  //const Noticias({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
-        
         title: Text('Noticias'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-           //Navigator.popUntil(context, ModalRoute.withName());
-          //print('Botón de retroceso presionado');
-          //Navigator.pop(context);
-          
-          },
-        ),
-        
-      ),
+        icon: Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.pop(context);
+              },
+            ),
+          ),
+
+
       body: Scrollbar(
         
       child: ListView(
