@@ -1,94 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_examen1/src/pages/noticias.dart';
-import 'package:flutter_application_examen1/src/pages/lista.dart';
-import 'package:flutter_application_examen1/src/pages/cambiomoneda.dart';
-import 'package:flutter_application_examen1/src/pages/podcast.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return  MaterialApp(
-      home: Menu()
-    );
-    
-  }
-}
+class HomePages extends StatelessWidget {
+  const HomePages({super.key});
 
-class Menu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'App Ceutec',
-      home: PaginaPrincipal(),
-    );
-  }
-}
-
-class PaginaPrincipal extends StatefulWidget {
-  @override
-  _PaginaPrincipalState createState() => _PaginaPrincipalState();
-}
-
-class _PaginaPrincipalState extends State<PaginaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('App CEUTEC'),
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {
-            // Aquí puedes agregar la lógica para manejar el botón de menú.
-            print('Botón de menú presionado');
-          },
-        ),
+        title: Text('APP CEUTEC'),
+        backgroundColor: Color.fromARGB(255, 91, 44, 179)
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            leading: Icon(Icons.newspaper),
-            title: Text('Noticias'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Noticias()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.attach_money),
-            title: Text('El cambio de moneda'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CambioMonedas()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.list),
-            title: Text('Lista de tareas'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Lista()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.podcasts),
-            title: Text('Podcast'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PodcastScreen()),
-              );
-            },
-          ),
+      drawer: MainDrawer(),
+      body: Center(
+        child: ListView(
+        children: <Widget>[
+          DrawerItem(icon: Icons.public, text: 'Noticias', onTap: () => Navigator.pushNamed(context, '/noticias')),
+          DrawerItem(icon: Icons.monetization_on, text: 'El cambio de Monedas', onTap: () => Navigator.pushNamed(context, '/cambioMonedas')),
+          DrawerItem(icon: Icons.list, text: 'Lista de tareas', onTap: () => Navigator.pushNamed(context, '/listaTareas')),
+          DrawerItem(icon: Icons.podcasts, text: 'Podcast', onTap: () => Navigator.pushNamed(context, '/podcast')),
+        ],
+      ),
+   ),
+    );
+  }
+}
+
+class MainDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+         UserAccountsDrawerHeader(
+              accountName: Text('MENU CEUTEC'),
+              accountEmail: Text('zarivera@unitec.edu'),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Snoopy_Peanuts.png/220px-Snoopy_Peanuts.png'), 
+              ),
+            decoration: BoxDecoration( color: Color.fromARGB(255, 49, 59, 162),
+            ),
+            ),
+          DrawerItem(icon: Icons.home, text: 'Pagina Inicio', onTap: () => Navigator.pushNamed(context, '/home')),
+          DrawerItem(icon: Icons.feed, text: 'Noticias', onTap: () => Navigator.pushNamed(context, '/noticias')),
+          DrawerItem(icon: Icons.monetization_on, text: 'El cambio de Monedas', onTap: () => Navigator.pushNamed(context, '/cambioMonedas')),
+          DrawerItem(icon: Icons.view_list_outlined, text: 'Lista de tareas', onTap: () => Navigator.pushNamed(context, '/listaTareas')),
+          DrawerItem(icon: Icons.podcasts, text: 'Podcast', onTap: () => Navigator.pushNamed(context, '/podcast')),
         ],
       ),
     );
   }
+}
+
+class DrawerItem extends ListTile {
+  DrawerItem({required IconData icon, required String text, required VoidCallback onTap}) : super(
+    leading: Icon(icon),
+    title: Text(text),
+    onTap: onTap,
+  );
 }

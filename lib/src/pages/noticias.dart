@@ -7,6 +7,7 @@ class Noticias extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Noticias'),
+        backgroundColor: Color.fromARGB(255, 91, 44, 179),
         leading: IconButton(
         icon: Icon(Icons.arrow_back),
         onPressed: () {

@@ -1,140 +1,133 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_examen1/src/menu.dart';
 
-class CambioMonedas extends StatelessWidget {
+
+class Moneda extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cambio de Monedas',
-      home: CambioMonedasPage(),
-    );
+  _ConversorDivisasState createState() => _ConversorDivisasState();
+}
+
+class _ConversorDivisasState extends State<Moneda> {
+  String monedaOrigen = 'Lempira';
+  String monedaDestino = 'Dólar';
+  double resultado = 0.0;
+  final TextEditingController cantidadController = TextEditingController();
+
+  void convertir() {
+    double cantidad = double.tryParse(cantidadController.text) ?? 0.0;
+    double tasa = obtenerTasa(monedaOrigen, monedaDestino);
+    setState(() {
+      resultado = cantidad * tasa;
+    });
   }
-}
 
-class CambioMonedasPage extends StatefulWidget {
-  @override
-  _CambioMonedasPageState createState() => _CambioMonedasPageState();
-}
-
-class _CambioMonedasPageState extends State<CambioMonedasPage> {
-
-  // Lista de monedas disponibles
-  List<String> monedas = ['Dólar', 'Euro'];
-  List<String> compraventa = ['Compra', 'Venta'];
-  
-  // Valor seleccionado por el usuario
-  String monedaSeleccionada = 'Dólar';
-  String compraventaSeleccionada = 'Compra';
-
-  // Controladores para los campos de texto
-  TextEditingController cantidadController = TextEditingController();
-  TextEditingController resultadoController = TextEditingController();
+  double obtenerTasa(String origen, String destino) {
+    Map<String, double> tasas = {
+      'Lempira-Dólar': 0.041,
+      'Dólar-Lempira': 24.61,
+      'Euro-Lempira': 26.30,
+      'Lempira-Euro': 0.038,
+      'Euro-Dólar': 1.07,
+      'Dólar-Euro': 0.93,
+    };
+    return tasas['$origen-$destino'] ?? 0.0;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cambio de Monedas'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        title: Text(
+          'CAMBIO DE MONEDA'),
+          backgroundColor: Color.fromARGB(255, 91, 44, 179),
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DropdownButton(
-              value: monedaSeleccionada,
-              items: monedas.map((String moneda) {
-                return DropdownMenuItem(
-                  value: moneda,
-                  child: Text(moneda),
-                );
-              }).toList(),
-              onChanged: (String? nuevaMoneda) {
-                setState(() {
-                  monedaSeleccionada = nuevaMoneda!;
-                });
-              },
-            ),
-
-            DropdownButton(
-              value: compraventaSeleccionada,
-              items: compraventa.map((String compraventa) {
-                return DropdownMenuItem(
-                  value: compraventa,
-                  child: Text(compraventa),
-                );
-              }).toList(),
-              onChanged: (String? nuevaCompraVenta) {
-                setState(() {
-                  compraventaSeleccionada = nuevaCompraVenta!;
-                });
-              },
-            ),
-
-            SizedBox(height: 16.0),
-            TextFormField(
-              controller: cantidadController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Cantidad',
+      drawer: MainDrawer(),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Seleccionar Moneda',
+                style: TextStyle(fontSize: 18),
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                calcularCambio();
-              },
-              child: Text('Calcular Cambio'),
-
-            ),
-            
-            SizedBox(height: 16.0),
-            TextFormField(
-              controller: resultadoController,
-              readOnly: true,
-              decoration: InputDecoration(
-                labelText: 'Resultado',
+              
+           SizedBox(height: 20),
+              Text(
+                'ORIGEN                                                           CAMBIO',
+                style: TextStyle(fontSize: 18),
               ),
-            ),
-            
-          ],
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButton<String>(
+                      value: monedaOrigen,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          monedaOrigen = newValue!;
+                        });
+                      },
+                      items: <String>['Lempira', 'Dólar', 'Euro']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  SizedBox(width: 18),
+                
+                  Expanded(
+                    child: DropdownButton<String>(
+                      value: monedaDestino,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          monedaDestino = newValue!;
+                        });
+                      },
+                      items: <String>['Dólar', 'Lempira', 'Euro']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              ),
+              
+              SizedBox(height: 25),
+              TextField(
+                controller: cantidadController,
+                decoration: InputDecoration(
+                  labelText: 'Cantidad',
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(height: 30),
+              ElevatedButton.icon(
+                onPressed: convertir,
+                icon: Icon(Icons.monetization_on),
+                label: Text(
+                  'Convertir',
+                  style: TextStyle(color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 3, 113, 1),
+                ),
+              ),
+              SizedBox(height:  20),
+              Text(
+                'Resultado: $resultado',
+                style: TextStyle(fontSize: 24),
+              ),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  void calcularCambio() {
-    double cantidad = double.tryParse(cantidadController.text) ?? 0.0;
-   // double tipocv = double.tryParse(cantidadController.text) ?? 0.0;
-    double tipoCambio=0;
-
-
-    if (monedaSeleccionada == 'Dólar' && compraventaSeleccionada == 'Compra') {
-      tipoCambio = 24.6822;
-    } 
-    if (monedaSeleccionada == 'Dólar' && compraventaSeleccionada == 'Venta'){
-      tipoCambio = 24.8056;
-    }
-    if (monedaSeleccionada == 'Euro' && compraventaSeleccionada == 'Compra'){
-      tipoCambio = 25.2993;
-    }
-    if (monedaSeleccionada == 'Euro' && compraventaSeleccionada == 'Venta'){
-      tipoCambio = 28.4024;
-    }
-    
-
-    // Calcular el cambio
-    double resultado = cantidad * tipoCambio;
-
-    // Actualizar el campo de texto del resultado
-    setState(() {
-      resultadoController.text = resultado.toStringAsFixed(4);
-    });
   }
 }

@@ -6,6 +6,7 @@ class PodcastScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Podcast'),
+        backgroundColor: Color.fromARGB(255, 91, 44, 179),
       ),
       body: Podcast(),
     );
