@@ -23,7 +23,6 @@ class Lista extends StatelessWidget {
             title: 'Preparar presentación de historia',
             description: 'Fecha límite: 15 de noviembre',
           ),
-          // Agrega más TareaItem según sea necesario
         ],
       ),
     );
@@ -44,7 +43,6 @@ class TareaItem extends StatelessWidget {
     return ListTile(
       title: Text(title),
       subtitle: Text(description),
-      // Agrega más personalizaciones según sea necesario
     );
   }
 }

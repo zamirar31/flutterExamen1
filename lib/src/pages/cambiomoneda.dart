@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class CambioMonedas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,14 +16,11 @@ class CambioMonedasPage extends StatefulWidget {
 }
 
 class _CambioMonedasPageState extends State<CambioMonedasPage> {
-  
-
 
   // Lista de monedas disponibles
   List<String> monedas = ['Dólar', 'Euro'];
-
   List<String> compraventa = ['Compra', 'Venta'];
-
+  
   // Valor seleccionado por el usuario
   String monedaSeleccionada = 'Dólar';
   String compraventaSeleccionada = 'Compra';

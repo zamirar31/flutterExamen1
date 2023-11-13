@@ -83,7 +83,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => PodcastPlayerWidget()),
+                MaterialPageRoute(builder: (context) => PodcastScreen()),
               );
             },
           ),

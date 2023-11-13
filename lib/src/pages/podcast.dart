@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 
-class PodcastPlayerWidget extends StatefulWidget {
+class PodcastScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Podcast'),
+      ),
+      body: Podcast(),
+    );
+  }
+}
+
+class Podcast extends StatefulWidget {
   @override
   _PodcastPlayerWidgetState createState() => _PodcastPlayerWidgetState();
 }
 
-class _PodcastPlayerWidgetState extends State<PodcastPlayerWidget> {
+class _PodcastPlayerWidgetState extends State<Podcast> {
   bool isPlaying = false;
   double sliderValue = 0.0;
   double maxSliderValue = 100.0;
@@ -33,10 +45,9 @@ class _PodcastPlayerWidgetState extends State<PodcastPlayerWidget> {
             width: 200,
             height: 200,
             decoration: BoxDecoration(
-              color: Colors.grey, // Placeholder color
+              color: Colors.grey, 
               borderRadius: BorderRadius.circular(12.0),
             ),
-            // Replace the child with an actual audio player widget
             child: Center(
               child: Icon(
                 isPlaying ? Icons.pause : Icons.play_arrow,
@@ -46,12 +57,12 @@ class _PodcastPlayerWidgetState extends State<PodcastPlayerWidget> {
           ),
           SizedBox(height: 16.0),
           Text(
-            'Nombre del Podcast',
+            'Podcast de examen',
             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8.0),
           Text(
-            'Descripción del episodio',
+            'Descripción del podcast',
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 16.0),
@@ -68,7 +79,6 @@ class _PodcastPlayerWidgetState extends State<PodcastPlayerWidget> {
               IconButton(
                 icon: Icon(Icons.skip_previous),
                 onPressed: () {
-                  // Lógica para reproducir el episodio anterior
                 },
               ),
               IconButton(
@@ -79,7 +89,6 @@ class _PodcastPlayerWidgetState extends State<PodcastPlayerWidget> {
               IconButton(
                 icon: Icon(Icons.skip_next),
                 onPressed: () {
-                  // Lógica para reproducir el siguiente episodio
                 },
               ),
             ],
